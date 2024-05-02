@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --main-color: hsl(220, 100%, 9%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--main-color);
+}
+
+.sequence {
+  grid-row-gap: 20px;
+}
