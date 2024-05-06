@@ -1,15 +1,18 @@
 "use strict";
+// import Timer from './timer';
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const grid = document.querySelector('.sequence');
 let currentLetter = 0;
 let sequence = '';
 function appendLetter(i) {
+    if (grid == null)
+        return;
     const letter = document.createElement('div');
     const nextSeq = LETTERS[Math.floor(Math.random() * LETTERS.length)];
     letter.textContent = nextSeq;
     letter.classList.add('bg-white', 'h-20', 'w-16', 'flex', 'items-center', 'justify-center', 'text-5xl', 'font-bold', 'rounded-lg', 'shadow-md', `seq-${i}`);
     sequence += nextSeq;
-    grid === null || grid === void 0 ? void 0 : grid.appendChild(letter);
+    grid.appendChild(letter);
 }
 function refreshSequence() {
     if (grid == null)
@@ -35,40 +38,19 @@ function highlightCurrentLetter() {
     }
     curr.style.backgroundColor = 'green';
 }
-function clearTimer() {
-    const bar = document.querySelector('.timer-progress-bar');
-    if (bar)
-        bar.style.width = `0%`;
-}
-function startTimer() {
-    let timer = 0;
-    let time = setInterval(() => {
-        timer++;
-        const bar = document.querySelector('.timer-progress-bar');
-        if (bar)
-            bar.style.width = `${timer * 10}%`;
-        if (timer === 10) {
-            refreshSequence();
-            if (bar)
-                bar.style.width = `0%`;
-            clearInterval(time);
-        }
-    }, 1000);
-}
-refreshSequence();
-highlightCurrentLetter();
-startTimer();
 document.body.addEventListener('keydown', (key) => {
     const keyPressed = key.key.toUpperCase();
     if (keyPressed === sequence[currentLetter])
         currentLetter++;
     else {
-        clearTimer();
         refreshSequence();
     }
     if (currentLetter === sequence.length) {
         refreshSequence();
-        clearTimer();
     }
     highlightCurrentLetter();
 });
+refreshSequence();
+highlightCurrentLetter();
+// const timer = new Timer();
+// console.log(timer.currentTime);

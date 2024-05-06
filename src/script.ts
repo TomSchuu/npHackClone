@@ -1,3 +1,5 @@
+// import Timer from './timer';
+
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const grid = document.querySelector<HTMLDivElement>('.sequence');
@@ -6,6 +8,8 @@ let currentLetter: number = 0;
 let sequence: string = '';
 
 function appendLetter(i: number) {
+  if (grid == null) return;
+
   const letter = document.createElement('div');
   const nextSeq = LETTERS[Math.floor(Math.random() * LETTERS.length)];
   letter.textContent = nextSeq;
@@ -24,7 +28,7 @@ function appendLetter(i: number) {
   );
 
   sequence += nextSeq;
-  grid?.appendChild(letter);
+  grid.appendChild(letter);
 }
 
 function refreshSequence() {
@@ -54,44 +58,22 @@ function highlightCurrentLetter() {
   curr.style.backgroundColor = 'green';
 }
 
-function clearTimer() {
-  const bar = document.querySelector<HTMLDivElement>('.timer-progress-bar');
-  if (bar) bar.style.width = `0%`;
-}
-
-function startTimer() {
-  let timer: number = 0;
-
-  let time = setInterval(() => {
-    timer++;
-    const bar = document.querySelector<HTMLDivElement>('.timer-progress-bar');
-    if (bar) bar.style.width = `${timer * 10}%`;
-
-    if (timer === 10) {
-      refreshSequence();
-      if (bar) bar.style.width = `0%`;
-      clearInterval(time);
-    }
-  }, 1000);
-}
-
-refreshSequence();
-highlightCurrentLetter();
-startTimer();
-
 document.body.addEventListener('keydown', (key: KeyboardEvent) => {
   const keyPressed: string = key.key.toUpperCase();
 
   if (keyPressed === sequence[currentLetter]) currentLetter++;
   else {
-    clearTimer();
     refreshSequence();
   }
 
   if (currentLetter === sequence.length) {
     refreshSequence();
-    clearTimer();
   }
 
   highlightCurrentLetter();
 });
+
+refreshSequence();
+highlightCurrentLetter();
+// const timer = new Timer();
+// console.log(timer.currentTime);
