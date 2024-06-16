@@ -63,7 +63,7 @@ function gameOver(win) {
 exports.default = gameOver;
 document.body.addEventListener('keydown', (key) => {
     const keyPressed = key.key.toUpperCase();
-    if (!LETTERS.includes(keyPressed)) {
+    if (!LETTERS.includes(keyPressed) || modal.style.display === 'block') {
         return;
     }
     if (keyPressed === sequence[currentLetter]) {

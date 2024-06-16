@@ -81,7 +81,7 @@ export default function gameOver(win: boolean): void {
 document.body.addEventListener('keydown', (key: KeyboardEvent) => {
   const keyPressed: string = key.key.toUpperCase();
 
-  if (!LETTERS.includes(keyPressed)) {
+  if (!LETTERS.includes(keyPressed) || modal!.style.display === 'block') {
     return;
   }
 
