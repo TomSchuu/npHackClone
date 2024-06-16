@@ -7,14 +7,22 @@
     <link rel="stylesheet" href="./output.css" />
   </head>
   <body>
+    <div class="modal" tabindex="0">
+      <div class="modal-content">
+        <h1 class="modal-title"></h1>
+        <p>Tip: Press Enter to Restart</p>
+      </div>
+    </div>
+
     <main class="h-screen flex flex-col justify-center items-center">
       <div class="sequence grid grid-cols-12 gap-4"></div>
       <div class="w-4/6 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-14">
-        <div class="bg-blue-600 h-2.5 rounded-full timer-progress-bar"></div>
-        <div class="text-white text-4xl" id="time-temp">0</div>
+        <div
+          class="bg-blue-600 h-2.5 rounded-full timer-progress-bar"
+          style="transition: width 0.1s ease-in-out"></div>
       </div>
     </main>
 
-    <script src="./script.js"></script>
+    <script src="./bundle.js"></script>
   </body>
 </html>

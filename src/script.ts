@@ -1,13 +1,16 @@
-// import Timer from './timer';
+import Timer from './timer';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const grid = document.querySelector<HTMLDivElement>('.sequence');
+const modal = document.querySelector<HTMLDivElement>('.modal');
+
+const timer: Timer = new Timer();
 
 let currentLetter: number = 0;
 let sequence: string = '';
 
-function appendLetter(i: number) {
+function appendLetter(i: number): void {
   if (grid == null) return;
 
   const letter = document.createElement('div');
@@ -31,7 +34,7 @@ function appendLetter(i: number) {
   grid.appendChild(letter);
 }
 
-function refreshSequence() {
+function refreshSequence(): void {
   if (grid == null) return;
 
   currentLetter = 0;
@@ -41,7 +44,7 @@ function refreshSequence() {
   for (let i = 0; i < 12; i++) appendLetter(i);
 }
 
-function highlightCurrentLetter() {
+function highlightCurrentLetter(): void {
   const curr = document.querySelector<HTMLDivElement>(`.seq-${currentLetter}`);
 
   if (!curr) return;
@@ -58,22 +61,55 @@ function highlightCurrentLetter() {
   curr.style.backgroundColor = 'green';
 }
 
+export default function gameOver(win: boolean): void {
+  timer.stopTimer();
+
+  if (!modal) return;
+
+  if (win) {
+    document.querySelector<HTMLHeadingElement>('.modal-title')!.textContent = 'Success!';
+    modal.style.backgroundColor = 'green';
+  } else {
+    document.querySelector<HTMLHeadingElement>('.modal-title')!.textContent = 'Game Over!';
+    modal.style.backgroundColor = 'red';
+  }
+
+  modal.style.display = 'block';
+  modal.focus();
+}
+
 document.body.addEventListener('keydown', (key: KeyboardEvent) => {
   const keyPressed: string = key.key.toUpperCase();
 
-  if (keyPressed === sequence[currentLetter]) currentLetter++;
-  else {
-    refreshSequence();
+  if (!LETTERS.includes(keyPressed)) {
+    return;
+  }
+
+  if (keyPressed === sequence[currentLetter]) {
+    currentLetter++;
+  } else {
+    gameOver(false);
   }
 
   if (currentLetter === sequence.length) {
-    refreshSequence();
+    gameOver(true);
   }
 
   highlightCurrentLetter();
 });
 
-refreshSequence();
-highlightCurrentLetter();
-// const timer = new Timer();
-// console.log(timer.currentTime);
+modal!.addEventListener('keydown', (key: KeyboardEvent) => {
+  if (key.key === 'Enter') {
+    modal!.style.display = 'none';
+    refreshSequence();
+    timer.startTimer();
+  }
+});
+
+function main(): void {
+  refreshSequence();
+  highlightCurrentLetter();
+  timer.startTimer();
+}
+
+main();
